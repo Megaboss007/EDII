@@ -318,6 +318,7 @@ tree23Node* inserirnotree23(tree23Node* x, string k, int v) {
         retval = inserirnotree23(x->lchild(), k, v);
         if(retval == x->lchild()) {return x;}
         else {return x->add(retval);}
+    else if()
         
     }
 }
