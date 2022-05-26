@@ -67,12 +67,12 @@ struct Node{
      Node(string k, int v)  {
          chave = k;
          value = v;
-         left = NULL;
-         right = NULL;
+         left = nullptr;
+         right = nullptr;
      }
 };
 
-Node *root;
+Node *rootBST;
 
 int get(Node* x, string key) {
     if(x == nullptr) return NOT_FOUND;
@@ -83,7 +83,7 @@ int get(Node* x, string key) {
 }
 
 int value(string key) {
-    return get(root, key);
+    return get(rootBST, key);
 }
 
 Node *put (Node *root, string key, int val) {
@@ -103,11 +103,11 @@ Node *put (Node *root, string key, int val) {
 }
 
 void add (string key, int val) {
-    root = put(root, key, val);
+    rootBST = put(rootBST, key, val);
 }
 
 int quantidadenos (Node *x) {
-    if(x == NULL)
+    if(x == nullptr)
     return 0;
     else 
       return 1 + quantidadenos(x->left) + quantidadenos(x->right);
@@ -129,7 +129,7 @@ int rankBST(string key, Node *x) {
 
 int rankBST(string key) {
     
-    return rankBST(key, root);
+    return rankBST(key, rootBST);
     
 
 }
@@ -143,7 +143,7 @@ Node* selectBST(Node* x, int k) {
 }
 
 string selectBST(int k) {
-    return selectBST(root, k)->chave;
+    return selectBST(rootBST, k)->chave;
 }
 
 //Treaps
@@ -243,6 +243,89 @@ void displayTreap(TreapNod *x, int space = 0, int height =10) {
    displayTreap(x->r, space);
 }
 
+//tree23
+
+class tree23Node {
+    public:
+    int lval;  
+    string lkey;
+    int rval;
+    string rkey;  
+  
+    tree23Node *left, *middle, *right;
+
+    tree23Node() {left = right = middle = nullptr;}
+
+
+    tree23Node(int lv, string lk, int rv, string rk, tree23Node* p1, tree23Node* p2, tree23Node* p3) {
+    lkey = lk; rkey = rk;
+    lval = lv; rval = rv;
+    left = p1; middle = p2; right = p3;
+    }
+public:
+
+bool isLeaf() {return left == nullptr;}
+tree23Node* lchild() {return left;}
+tree23Node* rchild() {return right;}
+tree23Node* mchild() {return middle;}
+int flval() {return lval;}
+string flkey() {return lkey;} 
+int frval() {return rval;}
+string frkey() {return rkey;}
+void setLeft(string k, int v) {lkey = k; lval = v;}
+void setRight(string k, int v) {rkey = k; rval = v;}
+void setLeftChild(tree23Node* x) {left = x;}
+void setMiddleChild(tree23Node* x) {middle = x;}
+void setRightChild(tree23Node* x) {right = x;}
+
+tree23Node* add(tree23Node* x) {
+    return x;
+}
+
+};
+
+
+tree23Node *root23;
+
+int getvaluetree23(tree23Node* x, string k) {
+    if(x == nullptr) {return NOT_FOUND;}
+    if(k.compare(x->lkey) == 0) {return x->lval;}
+    if((x->rkey != "") && (k.compare(x->lkey) == 0))
+        return x->rval;    
+     if(k.compare(x->lkey) < 0)
+        return getvaluetree23(x->left, k);
+ else if(x->rkey == "")
+        return getvaluetree23(x->middle, k);
+    else if(k.compare(x->rkey)<0)
+    return getvaluetree23(x->middle, k);
+  
+}
+
+int valuetree23(string k) {
+    return getvaluetree23(root23, k);
+}
+
+
+
+tree23Node* inserirnotree23(tree23Node* x, string k, int v) {
+    tree23Node* retval;
+    if(x == nullptr)
+    return new tree23Node(v, k, NOT_FOUND, "", nullptr, nullptr, nullptr);
+    if(x->isLeaf()){
+        return x->add(new tree23Node(v, k, NOT_FOUND, "", nullptr, nullptr, nullptr));
+    }
+    if(k.compare(x->flkey()) < 0) {
+        retval = inserirnotree23(x->lchild(), k, v);
+        if(retval == x->lchild()) {return x;}
+        else {return x->add(retval);}
+        
+    }
+}
+
+
+
+
+
 
 
 
@@ -302,6 +385,11 @@ string *texto, *acao, aux2;
 aux2 = "";
 int aux;
 int tamanho, acoes;
+
+
+
+
+
 cin >> estrutura;
 cin >> tamanho;
 
